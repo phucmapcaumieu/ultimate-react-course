@@ -1,0 +1,9 @@
+{
+    "indent_style": 4,
+    "tabWidth": 4,
+    "editor.detectIndentation": false,
+    "editor.insertSpaces": true,
+    "editor.tabSize": 4,
+    "semi": true,
+    "trailingComma": "es5"
+}
