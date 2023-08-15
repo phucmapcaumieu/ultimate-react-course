@@ -12,58 +12,90 @@ function App() {
     );
 }
 
-const Header = () => {
+function Header() {
     // modify css:
     // style={<object>}
     // example: style={{color: red}}
     return (
         <header className="header">
-            <h1>Fast Reặc Pizza Co.</h1>
+            <h1>Fast Reặct Pizza Co.</h1>
         </header>
     );
-};
+}
 
-const Menu = () => {
+function Menu() {
+    const pizzas = pizzaData;
+    // const pizzas = [];
+
     return (
-        <div className="menu">
-            <h2>This is our menu</h2>
-            <Pizza
-                name={pizzaData[0].name}
-                ingredients={pizzaData[0].ingredients}
-                price={pizzaData[0].price}
-                photoName={pizzaData[0].photoName}
-                soldOut={pizzaData[0].soldOut}
-            />
-        </div>
-    );
-};
+        // this <> is react fragment, it will wrapp all inside and
+        // delete "<>" when rendering to UI
+        <>
+            <main className="menu">
+                <h2>Our menu</h2>
 
-const Footer = () => {
+                {pizzas.length > 0 ? (
+                    <ul className="pizzas">
+                        {pizzas.map((pizza) => {
+                            return <Pizza pizzaObj={pizza} key={pizza.name} />;
+                        })}
+                    </ul>
+                ) : (
+                    <div>hehe</div>
+                )}
+            </main>
+        </>
+    );
+}
+
+function Pizza({ pizzaObj }) {
+    return (
+        // this one is react fragment too
+        <React.Fragment>
+            <li className={`pizza ${pizzaObj.soldOut ? "sold-out" : ""}`}>
+                <img src={pizzaObj.photoName} alt={pizzaObj.name} />
+                <div>
+                    <h3>{pizzaObj.name}</h3>
+                    <p>{pizzaObj.ingredients}</p>
+                    <span>
+                        {pizzaObj.soldOut ? "SOLD OUT" : pizzaObj.price}
+                    </span>
+                </div>
+            </li>
+        </React.Fragment>
+    );
+}
+
+function Footer() {
     const hour = new Date().getHours();
     const openHour = 8;
     const closeHour = 22;
     const isOpen = hour >= openHour && hour < closeHour;
-
     // bussiness logic:
     // isOpen ? alert("Welcome") : alert("Dit me may, cut");
 
     return (
         <footer className="footer">
-            {new Date().toLocaleDateString()}. We're still open.
+            {isOpen ? (
+                <Order />
+            ) : (
+                <div>
+                    Sorry, we're closed. Please comback in tomorrow in{" "}
+                    {openHour} AM
+                </div>
+            )}
         </footer>
     );
-};
+}
 
-const Pizza = (props) => {
+function Order() {
     return (
-        <div className="pizza">
-            <h3>{props.name}</h3>
-            <p>{props.ingredients}</p>
-            <p>{props.price}</p>
-            <img src={props.photoName} alt={"Pizza " + props.name} />
+        <div className="order">
+            <p>We're still open</p>
+            <button className="btn">Order</button>
         </div>
     );
-};
+}
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
